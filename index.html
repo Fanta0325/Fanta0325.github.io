@@ -1,71 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>카톡 인증툴</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>수학 수행</title>
 </head>
 <body>
-  <h1>카톡 인증툴</h1>
-  
-  <p>SID와 TOKEN 값을 입력하고, 구매한 전화번호와 인증문자를 입력해주세요:</p>
-  
-  <p>SID: <input type="text" id="sid"></p>
-  <p>TOKEN: <input type="text" id="token"></p>
-  
-  <p>구매한 전화번호: <input type="text" id="toNumber"></p>
-  <p>인증문자: <input type="text" id="authMessage"></p>
-  
-  <button id="sendAuthButton">인증 문자 전송</button>
-  
-  <p>인증 문자: <input type="text" id="authCode"></p>
-  <button id="verifyButton">인증 확인</button>
-  
-  <p id="resultMessage"></p>
-  
-  <script>
-    document.getElementById('sendAuthButton').addEventListener('click', () => {
-      const sid = document.getElementById('sid').value;
-      const token = document.getElementById('token').value;
-      const toNumber = document.getElementById('toNumber').value;
-      const authMessage = document.getElementById('authMessage').value;
-
-      try {
-        const client = new Twilio(sid, token);
-
-        // Twilio를 사용하여 SMS 전송
-        $.ajax({
-          url: `https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`,
-          type: 'POST',
-          data: {
-            To: toNumber,
-            From: '+44 7860 064888',
-            Body: authMessage
-          },
-          headers: {
-            Authorization: `Basic ${btoa(`${sid}:${token}`)}`
-          },
-          success: () => {
-            document.getElementById('resultMessage').textContent = '인증 코드가 전송되었습니다.';
-          },
-          error: () => {
-            document.getElementById('resultMessage').textContent = '인증 코드 전송에 실패하였습니다.';
-          }
-        });
-      } catch (error) {
-        document.getElementById('resultMessage').textContent = 'SID와 TOKEN 값을 확인하세요.';
-      }
-    });
-
-    document.getElementById('verifyButton').addEventListener('click', () => {
-      const authCode = document.getElementById('authCode').value;
-      
-      // 실제 인증 코드 확인 로직 구현
-      if (authCode === '123456') { // 실제 인증 코드와 비교
-        document.getElementById('resultMessage').textContent = '인증이 확인되었습니다.';
-      } else {
-        document.getElementById('resultMessage').textContent = '인증이 실패하였습니다.';
-      }
-    });
-  </script>
+    <img src="https://ibb.co/F5Z72Pg" alt="수학 수행 안내">
 </body>
 </html>
