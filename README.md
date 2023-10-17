@@ -1,2 +1,2 @@
-# KaKaO
+# TeamOric
 LoL
