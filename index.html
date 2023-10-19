@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>수학 안내[10/18]</title>
+    <title>수학 안내[10/19]</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,20 +25,108 @@
             font-size: 15px;
             color: #333;
         }
+        table {
+            margin: 20px auto;
+        }
+        table td {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+        }
+        .cell {
+            cursor: pointer;
+        }
+        .checked {
+            background-color: #00FF00;
+        }
     </style>
 </head>
 <body>
-    <audio controls autoplay>
-        <source src="https://drive.google.com/uc?id=10AvNWqhnMovXN7oXVxT9kih1rE1FCkms" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
     
     <h1>•숙제: 183p(탐구활동3)•금요일(10/20) 6교시 수학수행•</h1>
     
     <img src="https://i.ibb.co/x195W4J/1697548164606.jpg" alt="수학 수행 안내문 사진" />
    
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu3uR65c7wMCy7DopBjwbtqcplldV3SDP_-g&usqp=CAU" alt="시험 잘보자!" />
-   
-    <p>This page is made by Fanta, the main director of TeamOric.</p>
+  <h2>10/20 수학 시험에 자신이 있다면 '자신'의 이름옆칸을 눌러 체크표시를 활성화하세요!</h2>
+    <!-- 아래에 표를 추가합니다. -->
+    <table border="1">
+        <tr>
+            <td>강희영</td>
+            <td>곽도원</td>
+          <td>김다은</td>
+          <td>김민재</td>
+          <td>김보윤</td>
+          <td>김시현</td>
+          <td>김은수</td>
+          <td>김은우</td>
+          <td>김하진</td>
+          <td>김해윤</td>
+          <td>박미르</td>
+          <td>박혜린</td>
+          <td>배정현</td>
+          <td>신민주</td>
+          <td>신채훈</td>
+          <td>윤상우</td>
+          <td>이다윤</td>
+          <td>이영훈</td>
+          <td>이주연</td>
+          <td>임유주</td>
+          <td>장예지</td>
+          <td>정도현</td>
+          <td>정지운</td>
+          <td>조준휘</td>
+          <td>최서현</td>
+          <td>최준서</td>
+          <td>허지영</td>
+          <td>김하윤</td>
+          
+            <!-- 이런 식으로 28개의 셀을 계속 나열합니다. -->
+        </tr>
+        <tr>
+            <td><span class="cell" id="cell1"></span></td>
+            <td><span class="cell" id="cell2"></span></td>
+          <td><span class="cell" id="cell3"></span></td>
+          <td><span class="cell" id="cell4"></span></td>
+          <td><span class="cell" id="cell5"></span></td>
+          <td><span class="cell" id="cell6"></span></td>
+          <td><span class="cell" id="cell7"></span></td>
+          <td><span class="cell" id="cell8"></span></td>
+          <td><span class="cell" id="cell9"></span></td>
+          <td><span class="cell" id="cell10"></span></td>
+          <td><span class="cell" id="cell11"></span></td>
+          <td><span class="cell" id="cell12"></span></td>
+          <td><span class="cell" id="cell13"></span></td>
+          <td><span class="cell" id="cell14"></span></td>
+          <td><span class="cell" id="cell15"></span></td>
+          <td><span class="cell" id="cell16"></span></td>
+          <td><span class="cell" id="cell17"></span></td>
+          <td><span class="cell" id="cell18"></span></td>
+          <td><span class="cell" id="cell19"></span></td>
+          <td><span class="cell" id="cell20"></span></td>
+          <td><span class="cell" id="cell21"></span></td>
+          <td><span class="cell" id="cell22"></span></td>
+          <td><span class="cell" id="cell23"></span></td>
+          <td><span class="cell" id="cell24"></span></td>
+          <td><span class="cell" id="cell25"></span></td>
+          <td><span class="cell" id="cell26"></span></td>
+          <td><span class="cell" id="cell27"></span></td>
+          <td><span class="cell" id="cell28"></span></td>
+          
+            <!-- 이런 식으로 각 셀에 체크 표시를 추가합니다. -->
+        </tr>
+    </table>
+
+    <script>
+
+        // 각 셀을 클릭할 때 체크 표시를 토글합니다.
+        const cells = document.querySelectorAll('.cell');
+        cells.forEach((cell) => {
+            cell.addEventListener('click', () => {
+                cell.classList.toggle('checked');
+            });
+        });
+    </script>
+  <p>This page is made by Fanta, the main director of TeamOric.</p>
 </body>
 </html>
