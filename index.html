@@ -118,14 +118,30 @@
     </table>
 
     <script>
+  // 각 셀을 클릭할 때 상태를 토글합니다.
+const cells = document.querySelectorAll('.cell');
 
-        // 각 셀을 클릭할 때 체크 표시를 토글합니다.
-        const cells = document.querySelectorAll('.cell');
-        cells.forEach((cell) => {
-            cell.addEventListener('click', () => {
-                cell.classList.toggle('checked');
-            });
-        });
+// 이전에 저장한 상태를 로드합니다.
+cells.forEach((cell, index) => {
+    const cellState = localStorage.getItem(`cell${index}`);
+    if (cellState === "😎") {
+        cell.textContent = "😎";
+    } else {
+        cell.textContent = "❌️";
+    }
+});
+
+cells.forEach((cell, index) => {
+    cell.addEventListener('click', () => {
+        if (cell.textContent === "❌️") {
+            cell.textContent = "😎";
+            localStorage.setItem(`cell${index}`, "😎");
+        } else {
+            cell.textContent = "❌️";
+            localStorage.setItem(`cell${index}`, "❌️");
+        }
+    });
+});
     </script>
   <p>This page is made by Fanta, the main director of TeamOric.</p>
 </body>
