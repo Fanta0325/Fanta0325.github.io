@@ -58,12 +58,9 @@
         <input type="number" id="endNumber" name="endNumber" required><br><br>
         <label for="numberOfSelections">뽑을 숫자의 수:</label><br>
         <input type="number" id="numberOfSelections" name="numberOfSelections" required><br><br>
-        <input type="checkbox" id="allowDuplicates" name="allowDuplicates">
-        <label for="allowDuplicates">중복 허용</label><br><br>
         <button type="button" onclick="pickNumbers()">뽑기</button>
     </form>
     <div id="result"></div>
-    <button id="resetButton" onclick="resetNumbers()">기록 초기화</button>
 </div>
 
 <script>
@@ -71,30 +68,19 @@ function pickNumbers() {
     var startNumber = parseInt(document.getElementById("startNumber").value);
     var endNumber = parseInt(document.getElementById("endNumber").value);
     var numberOfSelections = parseInt(document.getElementById("numberOfSelections").value);
-    var allowDuplicates = document.getElementById("allowDuplicates").checked;
 
     var numbers = [];
     for (var i = startNumber; i <= endNumber; i++) {
-        numbers.push(i);
+        if (i !== 2) { // 숫자 2를 제외하고 추가합니다.
+            numbers.push(i);
+        }
     }
 
     var selectedNumbers = [];
-    if (allowDuplicates) {
-        for (var i = 0; i < numberOfSelections; i++) {
-            var randomIndex = Math.floor(Math.random() * numbers.length);
-            selectedNumbers.push(numbers[randomIndex]);
-            numbers.splice(randomIndex, 1);
-        }
-    } else {
-        var shuffledNumbers = numbers.sort(() => Math.random() - 0.5);
-        selectedNumbers = shuffledNumbers.slice(0, numberOfSelections).sort((a, b) => a - b);
-    }
+    var shuffledNumbers = numbers.sort(() => Math.random() - 0.5);
+    selectedNumbers = shuffledNumbers.slice(0, numberOfSelections).sort((a, b) => a - b);
 
     document.getElementById("result").innerHTML = "<h2>뽑힌 숫자:</h2><p>" + selectedNumbers.join(", ") + "</p>";
-}
-
-function resetNumbers() {
-    document.getElementById("result").innerHTML = "";
 }
 </script>
 </body>
