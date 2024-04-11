@@ -56,6 +56,9 @@
         flex-direction: column;
         align-items: center; /* 가운데 정렬 */
     }
+    .hide {
+        display: none;
+    }
 </style>
 </head>
 <body>
@@ -68,6 +71,8 @@
         <input type="number" id="endNumber" name="endNumber" required><br><br>
         <label for="numberOfSelections">뽑을 숫자의 수:</label><br>
         <input type="number" id="numberOfSelections" name="numberOfSelections" required><br><br>
+        <label for="excludeTwoCheckbox" class="hide">숫자 2 제외</label>
+        <input type="checkbox" id="excludeTwoCheckbox" class="hide"><br><br>
         <button type="button" onclick="pickNumbers()">뽑기</button>
     </form>
     <div id="result"></div>
@@ -81,14 +86,20 @@
 </div>
 
 <script>
+// 체크박스가 선택되었는지 여부를 확인하는 함수
+function isExcludeTwoChecked() {
+    return document.getElementById("excludeTwoCheckbox").checked;
+}
+
 function pickNumbers() {
     var startNumber = parseInt(document.getElementById("startNumber").value);
     var endNumber = parseInt(document.getElementById("endNumber").value);
     var numberOfSelections = parseInt(document.getElementById("numberOfSelections").value);
+    var excludeTwo = isExcludeTwoChecked();
 
     var numbers = [];
     for (var i = startNumber; i <= endNumber; i++) {
-        if (i !== 2) { // 숫자 2를 제외하고 추가합니다.
+        if (i !== 2 || !excludeTwo) { // 숫자 2를 제외하고 추가합니다.
             numbers.push(i);
         }
     }
@@ -99,6 +110,14 @@ function pickNumbers() {
 
     document.getElementById("result").innerHTML = "<h2>뽑힌 숫자:</h2><p>" + selectedNumbers.join(", ") + "</p>";
 }
+
+// 페이지를 새로고침할 때 체크박스 상태 초기화
+window.onload = function() {
+    document.getElementById("excludeTwoCheckbox").checked = false;
+    // 체크박스와 레이블을 활성화합니다.
+    document.getElementById("excludeTwoCheckbox").classList.remove("hide");
+    document.querySelector('label[for="excludeTwoCheckbox"]').classList.remove("hide");
+};
 </script>
 </body>
 </html>
