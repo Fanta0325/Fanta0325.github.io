@@ -116,8 +116,12 @@ function pickNumbers() {
             }
             
             // Randomly shuffle and select numbers
-            var shuffledNumbers = numbers.sort(() => Math.random() - 0.5);
-            selectedNumbers = shuffledNumbers.slice(0, numberOfSelections).sort((a, b) => a - b);
+            var selectedNumbers = [];
+            for (var i = 0; i < numberOfSelections; i++) {
+                var randomNumber = Math.floor(Math.random() * numbers.length);
+                selectedNumbers.push(numbers[randomNumber]);
+                numbers.splice(randomNumber, 1);
+            }
 
             document.getElementById("result").innerHTML = "<h2>뽑힌 숫자:</h2><p>" + selectedNumbers.join(", ") + "</p>";
         })
@@ -128,4 +132,3 @@ function pickNumbers() {
 </script>
 </body>
 </html>
-
