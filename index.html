@@ -68,11 +68,6 @@
         <input type="number" id="endNumber" name="endNumber" required><br><br>
         <label for="numberOfSelections">뽑을 숫자의 수:</label><br>
         <input type="number" id="numberOfSelections" name="numberOfSelections" required><br><br>
-        <label>반 선택:</label><br>
-        <input type="checkbox" id="1반" name="반" value="1">1반
-        <input type="checkbox" id="2반" name="반" value="2">2반
-        <input type="checkbox" id="3반" name="반" value="3">3반
-        <input type="checkbox" id="4반" name="반" value="4">4반<br><br>
         <button type="button" onclick="pickNumbers()">뽑기</button>
     </form>
     <div id="result"></div>
@@ -90,44 +85,19 @@ function pickNumbers() {
     var startNumber = parseInt(document.getElementById("startNumber").value);
     var endNumber = parseInt(document.getElementById("endNumber").value);
     var numberOfSelections = parseInt(document.getElementById("numberOfSelections").value);
-    var selectedClass = document.querySelectorAll('input[name="반"]:checked');
-    
-    if (selectedClass.length !== 1) {
-        alert("[!] 하나의 반만 선택해주세요 [!]");
-        return;
-    }
-    
-    var selectedNumbers = [];
-    var numbers = [];
-    var selectedClassValue = parseInt(selectedClass[0].value);
-    
-    // Read config.json to get probabilities
-    fetch('config.json')
-        .then(response => response.json())
-        .then(data => {
-            // Get probabilities for the selected class
-            var probabilities = data[selectedClassValue.toString()];
-            
-            // Generate numbers based on probabilities
-            for (var i = startNumber; i <= endNumber; i++) {
-                for (var j = 0; j < probabilities[i - startNumber]; j++) {
-                    numbers.push(i);
-                }
-            }
-            
-            // Randomly shuffle and select numbers
-            var selectedNumbers = [];
-            for (var i = 0; i < numberOfSelections; i++) {
-                var randomNumber = Math.floor(Math.random() * numbers.length);
-                selectedNumbers.push(numbers[randomNumber]);
-                numbers.splice(randomNumber, 1);
-            }
 
-            document.getElementById("result").innerHTML = "<h2>뽑힌 숫자:</h2><p>" + selectedNumbers.join(", ") + "</p>";
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    var numbers = [];
+    for (var i = startNumber; i <= endNumber; i++) {
+        if (i !== 2) { // 숫자 2를 제외하고 추가합니다.
+            numbers.push(i);
+        }
+    }
+
+    var selectedNumbers = [];
+    var shuffledNumbers = numbers.sort(() => Math.random() - 0.5);
+    selectedNumbers = shuffledNumbers.slice(0, numberOfSelections).sort((a, b) => a - b);
+
+    document.getElementById("result").innerHTML = "<h2>뽑힌 숫자:</h2><p>" + selectedNumbers.join(", ") + "</p>";
 }
 </script>
 </body>
