@@ -101,12 +101,13 @@ function pickNumbers() {
     for (var i = startNumber; i <= endNumber; i++) {
         if (i === 3 || i === 12 || i === 16 || i === 20 || i === 25) {
             probabilities[i] = 2; // 확률을 2배로 설정합니다.
-        } else if (i === 2) {
-            probabilities[i] = 0; // 숫자 2의 확률을 0으로 설정합니다.
         } else {
             probabilities[i] = 1;
         }
     }
+
+    // 숫자 2의 확률을 0으로 설정합니다.
+    probabilities[2] = 0;
 
     // 모든 숫자의 확률 총합을 계산합니다.
     var totalProbability = Object.values(probabilities).reduce((acc, val) => acc + val, 0);
