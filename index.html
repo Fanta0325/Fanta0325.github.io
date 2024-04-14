@@ -100,7 +100,7 @@ function pickNumbers() {
     var probabilities = {};
     for (var i = startNumber; i <= endNumber; i++) {
         if (i === 3 || i === 12 || i === 16 || i === 20 || i === 25) {
-            probabilities[i] = 1.5;
+            probabilities[i] = 2; // 확률을 2배로 설정합니다.
         } else {
             probabilities[i] = 1;
         }
