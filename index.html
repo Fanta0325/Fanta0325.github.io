@@ -105,12 +105,21 @@ function pickNumbers() {
         25: 1.5
     };
 
+    // 모든 숫자의 확률 총합을 계산합니다.
+    var totalProbability = Object.values(probabilities).reduce((acc, val) => acc + val, 0);
+
+    // 각 숫자의 선택 확률을 계산합니다.
+    var selectionProbabilities = {};
+    for (var number in probabilities) {
+        selectionProbabilities[number] = probabilities[number] / totalProbability;
+    }
+
     // 확률에 따라 숫자를 선택합니다.
     for (var i = 0; i < numberOfSelections; i++) {
         var randomNumber = Math.random();
         var cumulativeProbability = 0;
-        for (var number in probabilities) {
-            cumulativeProbability += probabilities[number];
+        for (var number in selectionProbabilities) {
+            cumulativeProbability += selectionProbabilities[number];
             if (randomNumber <= cumulativeProbability) {
                 selectedNumbers.push(parseInt(number));
                 break;
