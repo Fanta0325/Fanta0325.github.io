@@ -63,11 +63,11 @@
     <h1>숫자 뽑기</h1>
     <form id="numberForm">
         <label for="startNumber">시작하는 숫자:</label><br>
-        <input type="number" id="startNumber" name="startNumber" required><br><br>
+        <input type="number" id="startNumber" name="startNumber" min="1" required><br><br>
         <label for="endNumber">끝나는 숫자:</label><br>
-        <input type="number" id="endNumber" name="endNumber" required><br><br>
+        <input type="number" id="endNumber" name="endNumber" min="1" required><br><br>
         <label for="numberOfSelections">뽑을 숫자의 수:</label><br>
-        <input type="number" id="numberOfSelections" name="numberOfSelections" required><br><br>
+        <input type="number" id="numberOfSelections" name="numberOfSelections" min="1" required><br><br>
         <button type="button" onclick="pickNumbers()">뽑기</button>
     </form>
     <div id="result"></div>
@@ -115,7 +115,7 @@ function pickNumbers() {
     }
 
     // 확률에 따라 숫자를 선택합니다.
-    while (selectedNumbers.length < numberOfSelections) {
+    while (selectedNumbers.length < numberOfSelections && selectedNumbers.length < numbers.length) {
         var randomNumber = Math.random();
         var cumulativeProbability = 0;
         for (var number in selectionProbabilities) {
