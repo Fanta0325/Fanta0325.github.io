@@ -115,12 +115,12 @@ function pickNumbers() {
     }
 
     // 확률에 따라 숫자를 선택합니다.
-    for (var i = 0; i < numberOfSelections; i++) {
+    while (selectedNumbers.length < numberOfSelections) {
         var randomNumber = Math.random();
         var cumulativeProbability = 0;
         for (var number in selectionProbabilities) {
             cumulativeProbability += selectionProbabilities[number];
-            if (randomNumber <= cumulativeProbability) {
+            if (randomNumber <= cumulativeProbability && !selectedNumbers.includes(parseInt(number))) {
                 selectedNumbers.push(parseInt(number));
                 break;
             }
