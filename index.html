@@ -86,13 +86,9 @@ function pickNumbers() {
     var endNumber = parseInt(document.getElementById("endNumber").value);
     var numberOfSelections = parseInt(document.getElementById("numberOfSelections").value);
 
-    var numbers = [];
-    for (var i = startNumber; i <= endNumber; i++) {
-        if (i !== 2) { // 숫자 2를 제외하고 추가합니다.
-            numbers.push(i);
+    
         }
     }
-
     var selectedNumbers = [];
     var shuffledNumbers = numbers.sort(() => Math.random() - 0.5);
     selectedNumbers = shuffledNumbers.slice(0, numberOfSelections).sort((a, b) => a - b);
