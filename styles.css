@@ -69,6 +69,18 @@ body {
     display: block;
 }
 
+/* 이미지 스타일링 */
+#main img {
+    width: 150px;
+    margin-top: 20px;
+}
+
+#main p {
+    color: #333;
+    margin-top: 10px;
+    font-style: italic;
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -89,15 +101,4 @@ body {
 
 #updateNoteModal.active {
     display: flex;
-}
-
-#main img {
-    width: 150px;
-    margin-top: 20px;
-}
-
-#main p {
-    color: #333;
-    margin-top: 10px;
-    font-style: italic;
 }
