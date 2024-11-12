@@ -8,7 +8,7 @@
 </head>
 <body>
     <!-- 햄버거 메뉴 -->
-    <div id="menu" class="menu-closed">
+    <div id="menu" class="menu menu-closed">
         <button id="menu-toggle" class="menu-toggle">☰</button>
         <div class="menu-content">
             <ul>
@@ -25,7 +25,7 @@
     <div id="content">
         <div id="main" class="section active">
             <h1>HDMS UTILS</h1>
-            <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fnamu.wiki%2Fw%2F%25ED%2596%25A5%25EB%258F%2599%25EC%25A4%2591%25ED%2595%2599%25EA%25B5%2590&psig=AOvVaw1cbz_QcYqZE9edMoxiKKwe&ust=1731471886920000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOiNxMf51YkDFQAAAAAdAAAAABAE" alt="Image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Seoul_Hyandong_Secondary_School_logo.png" alt="School Logo" />
             <p>Made by Lantern</p>
         </div>
         <div id="numberPicker" class="section">
@@ -35,7 +35,26 @@
             <button onclick="pickNumbers()">숫자 뽑기</button>
             <div id="numberResult"></div>
         </div>
-        <!-- 나머지 코드 동일 -->
+        <div id="stopwatch" class="section">
+            <h2>스탑워치</h2>
+            <div id="stopwatchDisplay">00:00:00</div>
+            <button onclick="startStopwatch()">시작</button>
+            <button onclick="stopStopwatch()">중지</button>
+            <button onclick="resetStopwatch()">초기화</button>
+        </div>
+        <div id="timer" class="section">
+            <h2>타이머</h2>
+            <label>설정 시간 (초): <input type="number" id="timerInput" placeholder="초 입력"></label>
+            <div id="timerDisplay">00:00:00</div>
+            <button onclick="startTimer()">시작</button>
+            <button onclick="stopTimer()">중지</button>
+            <button onclick="resetTimer()">초기화</button>
+        </div>
+    </div>
+
+    <!-- Update Note 팝업 -->
+    <div id="updateNoteModal" class="modal" onclick="closeUpdateNote()">
+        <div class="modal-content" id="updateNoteContent"></div>
     </div>
 
     <script src="script.js"></script>
