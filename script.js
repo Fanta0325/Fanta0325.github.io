@@ -35,3 +35,52 @@ function pickNumbers() {
     }
     document.getElementById("numberResult").innerText = `뽑힌 숫자: ${numbers.join(", ")}`;
 }
+
+// 스탑워치 및 타이머 기능
+let stopwatchInterval, timerInterval, timerTimeLeft;
+
+function startStopwatch() {
+    let startTime = Date.now();
+    stopwatchInterval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        document.getElementById("stopwatchDisplay").innerText = formatTime(elapsed);
+    }, 1000);
+}
+
+function stopStopwatch() {
+    clearInterval(stopwatchInterval);
+}
+
+function resetStopwatch() {
+    stopStopwatch();
+    document.getElementById("stopwatchDisplay").innerText = "00:00:00";
+}
+
+function startTimer() {
+    timerTimeLeft = parseInt(document.getElementById("timerInput").value, 10) * 1000;
+    timerInterval = setInterval(() => {
+        timerTimeLeft -= 1000;
+        document.getElementById("timerDisplay").innerText = formatTime(timerTimeLeft);
+        if (timerTimeLeft <= 0) {
+            stopTimer();
+            alert("타이머 종료");
+        }
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+}
+
+function resetTimer() {
+    stopTimer();
+    document.getElementById("timerDisplay").innerText = "00:00:00";
+}
+
+function formatTime(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+    const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+    const seconds = String(totalSeconds % 60).padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+}
