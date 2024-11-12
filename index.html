@@ -1,102 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>숫자 뽑기</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    .container {
-        max-width: 400px;
-        margin: 50px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-    h1 {
-        color: #333;
-    }
-    button {
-        margin-top: 20px;
-        padding: 10px 20px;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        background-color: #00ffbf; /* 민트색으로 변경 */
-        color: #fff;
-        cursor: pointer;
-    }
-    #result {
-        margin-top: 20px;
-        padding: 20px;
-        background-color: #f5f5f5;
-        border-radius: 5px;
-    }
-    #result h2 {
-        margin-bottom: 10px;
-        color: #333;
-    }
-    #result p {
-        font-size: 20px;
-        color: #555;
-    }
-    .credits {
-        margin-top: 50px;
-        text-align: center; /* 텍스트를 가운데로 정렬 */
-        color: purple; /* 보라색으로 변경 */
-    }
-    .center {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* 가운데 정렬 */
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDMS UTILS</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="container">
-    <h1>숫자 뽑기</h1>
-    <form id="numberForm">
-        <label for="startNumber">시작하는 숫자:</label><br>
-        <input type="number" id="startNumber" name="startNumber" required><br><br>
-        <label for="endNumber">끝나는 숫자:</label><br>
-        <input type="number" id="endNumber" name="endNumber" required><br><br>
-        <label for="numberOfSelections">뽑을 숫자의 수:</label><br>
-        <input type="number" id="numberOfSelections" name="numberOfSelections" required><br><br>
-        <button type="button" onclick="pickNumbers()">뽑기</button>
-    </form>
-    <div id="result"></div>
-</div>
-
-<div class="center">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9zhE3mLtoXYv-Yzlq7__u87qp4SJKli1SayEIAjGVTQ&s" alt="HDMS LOGO" style="max-width: 100%; margin-top: 20px;">
-    <div class="credits">
-        <p>Script Wrote by Mr. Oric / Web Powered by Github</p>
+    <!-- 햄버거 메뉴 -->
+    <div id="menu" class="menu-closed">
+        <button id="menu-toggle" class="menu-toggle">☰</button>
+        <div class="menu-content">
+            <ul>
+                <li><a href="#" class="main-link">HDMS UTILS</a></li>
+                <li><a href="#" onclick="showSection('numberPicker')">숫자뽑기</a></li>
+                <li><a href="#" onclick="showSection('stopwatch')">스탑워치</a></li>
+                <li><a href="#" onclick="showSection('timer')">타이머</a></li>
+                <li><a href="#" class="update-note" onclick="showUpdateNote()">Update Note</a></li>
+            </ul>
+        </div>
     </div>
-</div>
 
-<script>
-function pickNumbers() {
-    var startNumber = parseInt(document.getElementById("startNumber").value);
-    var endNumber = parseInt(document.getElementById("endNumber").value);
-    var numberOfSelections = parseInt(document.getElementById("numberOfSelections").value);
+    <!-- 메인 콘텐츠 영역 -->
+    <div id="content">
+        <div id="main" class="section active">
+            <h1>HDMS UTILS</h1>
+            <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fnamu.wiki%2Fw%2F%25ED%2596%25A5%25EB%258F%2599%25EC%25A4%2591%25ED%2595%2599%25EA%25B5%2590&psig=AOvVaw1cbz_QcYqZE9edMoxiKKwe&ust=1731471886920000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOiNxMf51YkDFQAAAAAdAAAAABAE" alt="Image">
+            <p>Made by Lantern</p>
+        </div>
+        <div id="numberPicker" class="section">
+            <h2>숫자뽑기</h2>
+            <label>범위 설정: <input type="number" id="rangeMin" placeholder="최소값"> ~ <input type="number" id="rangeMax" placeholder="최대값"></label>
+            <label>뽑을 개수: <input type="number" id="quantity" placeholder="개수"></label>
+            <button onclick="pickNumbers()">숫자 뽑기</button>
+            <div id="numberResult"></div>
+        </div>
+        <div id="stopwatch" class="section">
+            <h2>스탑워치</h2>
+            <div id="stopwatchDisplay">00:00:00</div>
+            <button onclick="startStopwatch()">시작</button>
+            <button onclick="stopStopwatch()">중지</button>
+            <button onclick="resetStopwatch()">초기화</button>
+        </div>
+        <div id="timer" class="section">
+            <h2>타이머</h2>
+            <label>설정 시간 (초): <input type="number" id="timerInput" placeholder="초 입력"></label>
+            <div id="timerDisplay">00:00:00</div>
+            <button onclick="startTimer()">시작</button>
+            <button onclick="stopTimer()">중지</button>
+            <button onclick="resetTimer()">초기화</button>
+        </div>
+    </div>
 
-    var numbers = [];
-    for (var i = startNumber; i <= endNumber; i++) {
-        numbers.push(i);
-    }
+    <!-- Update Note 팝업 -->
+    <div id="updateNoteModal" class="modal" onclick="closeUpdateNote()">
+        <div class="modal-content" id="updateNoteContent"></div>
+    </div>
 
-    var selectedNumbers = [];
-    var shuffledNumbers = numbers.sort(() => Math.random() - 0.5);
-    selectedNumbers = shuffledNumbers.slice(0, numberOfSelections).sort((a, b) => a - b);
-
-    document.getElementById("result").innerHTML = "<h2>뽑힌 숫자:</h2><p>" + selectedNumbers.join(", ") + "</p>";
-}
-</script>
+    <script src="script.js"></script>
 </body>
 </html>
