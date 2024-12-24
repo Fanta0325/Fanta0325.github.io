@@ -3,60 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HDMS UTILS</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>학교 검색</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #result {
+            margin-top: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <!-- 햄버거 메뉴 -->
-    <div id="menu" class="menu menu-closed">
-        <button id="menu-toggle" class="menu-toggle">☰</button>
-        <div class="menu-content">
-            <ul>
-                <li><a href="#" class="main-link">HDMS UTILS</a></li>
-                <li><a href="#" onclick="showSection('numberPicker')">숫자뽑기</a></li>
-                <li><a href="#" onclick="showSection('stopwatch')">스탑워치</a></li>
-                <li><a href="#" onclick="showSection('timer')">타이머</a></li>
-                <li><a href="#" class="update-note" onclick="showUpdateNote()">Update Note</a></li>
-            </ul>
-        </div>
-    </div>
+    <h1>학교 검색</h1>
+    <input type="text" id="schoolName" placeholder="학교 이름 입력">
+    <button id="searchButton">검색</button>
 
-    <!-- 메인 콘텐츠 영역 -->
-    <div id="content">
-        <div id="main" class="section active">
-            <h1>HDMS UTILS</h1>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Seoul_Hyandong_Secondary_School_logo.png" alt="School Logo" />
-            <p>Made by Lantern</p>
-        </div>
-        <div id="numberPicker" class="section">
-            <h2>숫자뽑기</h2>
-            <label>범위 설정: <input type="number" id="rangeMin" placeholder="최소값"> ~ <input type="number" id="rangeMax" placeholder="최대값"></label>
-            <label>뽑을 개수: <input type="number" id="quantity" placeholder="개수"></label>
-            <button onclick="pickNumbers()">숫자 뽑기</button>
-            <div id="numberResult"></div>
-        </div>
-        <div id="stopwatch" class="section">
-            <h2>스탑워치</h2>
-            <div id="stopwatchDisplay">00:00:00</div>
-            <button onclick="startStopwatch()">시작</button>
-            <button onclick="stopStopwatch()">중지</button>
-            <button onclick="resetStopwatch()">초기화</button>
-        </div>
-        <div id="timer" class="section">
-            <h2>타이머</h2>
-            <label>설정 시간 (초): <input type="number" id="timerInput" placeholder="초 입력"></label>
-            <div id="timerDisplay">00:00:00</div>
-            <button onclick="startTimer()">시작</button>
-            <button onclick="stopTimer()">중지</button>
-            <button onclick="resetTimer()">초기화</button>
-        </div>
-    </div>
+    <div id="result"></div>
 
-    <!-- Update Note 팝업 -->
-    <div id="updateNoteModal" class="modal" onclick="closeUpdateNote()">
-        <div class="modal-content" id="updateNoteContent"></div>
-    </div>
+    <script>
+        const searchSchool = async (schoolName) => {
+            // 학교 검색 API 호출
+            const response = await fetch('/api/searchSchool', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ schoolName })
+            });
+            return response.json();
+        };
 
-    <script src="script.js"></script>
+        document.getElementById('searchButton').addEventListener('click', async () => {
+            const schoolName = document.getElementById('schoolName').value;
+            const resultDiv = document.getElementById('result');
+
+            resultDiv.innerHTML = ''; // 결과 초기화
+
+            if (schoolName) {
+                const schools = await searchSchool(schoolName);
+                if (schools.length > 0) {
+                    let tableHTML = '<table><tr><th>학교 이름</th><th>지역</th><th>학교 코드</th></tr>';
+                    schools.forEach(school => {
+                        tableHTML += `<tr><td>${school.name}</td><td>${school.region}</td><td>${school.value}</td></tr>`;
+                    });
+                    tableHTML += '</table>';
+                    resultDiv.innerHTML = tableHTML;
+                } else {
+                    resultDiv.innerHTML = '검색 결과가 없습니다.';
+                }
+            } else {
+                resultDiv.innerHTML = '학교 이름을 입력하세요.';
+            }
+        });
+    </script>
 </body>
 </html>
