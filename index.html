@@ -1,116 +1,105 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IINB</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        h1 {
-            text-align: center;
-            color: #4CAF50;
-        }
-        #search-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        #schoolName {
-            padding: 10px;
-            width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        #searchButton {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        #searchButton:hover {
-            background-color: #45a049;
-        }
-        #result {
-            margin-top: 20px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HDMS UTILS</title>
+<style>
+  body { background-color: #001100; color: #00FF00; font-family: 'Courier New', Courier, monospace; margin: 0; padding: 0; }
+  .container { text-align: center; padding: 50px 20px; }
+  h1 { font-size: 4em; margin-bottom: 0.2em; }
+  h2 { font-size: 2em; margin-top: 0; margin-bottom: 0.5em; }
+  p.credits { font-size: 1em; color: #007700; }
+  .hamburger { position: fixed; top: 10px; left: 10px; cursor: pointer; z-index: 1001; }
+  .bar { width: 25px; height: 3px; background-color: #00FF00; margin: 5px 0; }
+  .menu { position: fixed; top: 0; left: -250px; width: 250px; height: 100%; background-color: #002200; padding: 20px; box-sizing: border-box; transition: left 0.3s ease; z-index: 1000; }
+  .menu.open { left: 0; }
+  .menu ul { list-style: none; padding: 0; }
+  .menu li { margin: 20px 0; font-size: 1.2em; cursor: pointer; }
+  .menu li.red { color: red; }
+  .content { margin-left: 20px; padding: 20px; }
+  .tab { display: none; }
+  .tab.active { display: block; }
+  input, button { font-family: 'Courier New', Courier, monospace; font-size: 1em; margin: 5px; padding: 5px; background-color: #003300; color: #00FF00; border: 1px solid #00FF00; }
+  button:hover { background-color: #005500; }
+  #result { margin-top: 20px; font-size: 1.5em; }
+</style>
 </head>
 <body>
-    <h1>학교 코드 찾기</h1>
-    <div id="search-container">
-        <input type="text" id="schoolName" placeholder="학교 이름 입력">
-        <button id="searchButton">검색</button>
+  <div class="hamburger" onclick="toggleMenu()">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+  <nav class="menu" id="menu">
+    <ul>
+      <li class="main-menu">메인메뉴</li>
+      <li class="number-draw" onclick="showTab('numberDraw')">숫자뽑기</li>
+      <li class="stopwatch" onclick="showTab('stopwatch')">스탑워치</li>
+      <li class="update-log red" onclick="showUpdateLog()">Update Log</li>
+    </ul>
+  </nav>
+  <div class="container">
+    <h1>HDMS UTILS v2.5</h1>
+    <h2>숫자뽑기 외 다수</h2>
+    <p class="credits">by mrLantern32577</p>
+  </div>
+  <div class="content">
+    <div id="numberDraw" class="tab active">
+      <h1>숫자뽑기</h1>
+      <label>시작 숫자: <input type="number" id="startNum" value="1"></label>
+      <label>끝 숫자: <input type="number" id="endNum" value="100"></label>
+      <label>뽑을 숫자 수: <input type="number" id="countNum" value="5"></label>
+      <button onclick="draw()">뽑기</button>
+      <div id="result"></div>
     </div>
-
-    <div id="result"></div>
-
-    <script>
-        const searchSchool = async (schoolName) => {
-            const response = await fetch('/api/searchSchool', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ schoolName })
-            });
-            if (!response.ok) {
-                throw new Error('네트워크 오류');
-            }
-            return response.json();
-        };
-
-        document.getElementById('searchButton').addEventListener('click', async () => {
-            const schoolName = document.getElementById('schoolName').value.trim();
-            const resultDiv = document.getElementById('result');
-
-            resultDiv.innerHTML = ''; // 결과 초기화
-
-            if (schoolName) {
-                try {
-                    const schools = await searchSchool(schoolName);
-                    if (schools.length > 0) {
-                        let tableHTML = '<table><tr><th>학교 이름</th><th>지역</th><th>학교 코드</th></tr>';
-                        schools.forEach(school => {
-                            tableHTML += `<tr><td>${school.name}</td><td>${school.region}</td><td>${school.value}</td></tr>`;
-                        });
-                        tableHTML += '</table>';
-                        resultDiv.innerHTML = tableHTML;
-                    } else {
-                        resultDiv.innerHTML = '<p>검색 결과가 없습니다.</p>';
-                    }
-                } catch (error) {
-                    resultDiv.innerHTML = `<p>오류가 발생했습니다: ${error.message}</p>`;
-                }
-            } else {
-                resultDiv.innerHTML = '<p>학교 이름을 입력하세요.</p>';
-            }
-        });
-    </script>
+    <div id="stopwatch" class="tab">
+      <h1>스탑워치</h1>
+      <p>스탑워치 WIP</p>
+    </div>
+  </div>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('open');
+    }
+    function showTab(tabId) {
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      toggleMenu();
+    }
+    function showUpdateLog() {
+      fetch('update.txt')
+        .then(response => response.text())
+        .then(text => { alert(text); toggleMenu(); })
+        .catch(() => alert('Update log를 불러올 수 없습니다.'));
+    }
+    function draw() {
+      const start = parseInt(document.getElementById('startNum').value);
+      const end = parseInt(document.getElementById('endNum').value);
+      const count = parseInt(document.getElementById('countNum').value);
+      if (isNaN(start) || isNaN(end) || isNaN(count)) {
+        alert('숫자를 올바르게 입력해주세요.');
+        return;
+      }
+      if (start > end) {
+        alert('시작 숫자가 끝 숫자보다 클 수 없습니다.');
+        return;
+      }
+      if (count < 1 || count > (end - start + 1)) {
+        alert('뽑을 숫자 수가 범위를 벗어났습니다.');
+        return;
+      }
+      let numbers = [];
+      for (let i = start; i <= end; i++) numbers.push(i);
+      for (let i = numbers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+      }
+      const result = numbers.slice(0, count);
+      document.getElementById('result').textContent = result.join(', ');
+    }
+  </script>
 </body>
 </html>
